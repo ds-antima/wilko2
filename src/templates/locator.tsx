@@ -19,13 +19,12 @@ import Newsletter from "../components/locatorPage/Newsletter";
 import { JsonLd } from "react-schemaorg";
 import { StaticData } from "../../sites-global/staticData";
 import Header from "../components/layouts/header";
+import Footer from "../components/layouts/footer";
 import {
   AnalyticsProvider,
   AnalyticsScopeProvider,
 } from "@yext/pages/components";
 import { AnswerExperienceConfig } from "../config/answersHeadlessConfig";
-import Header1 from "../components/layouts/header";
-import Footer from "../components/layouts/footer";
 
 export const config: TemplateConfig = {
   stream: {
@@ -34,12 +33,11 @@ export const config: TemplateConfig = {
     // directly as props to the default exported function.
     fields: [
       "name",
-       
      
     ],
     // Defines the scope of entities that qualify for this stream.
     filter: {
-      entityIds: ["globla-data"]
+      entityIds: ["globla_data"]
     },
     // The entity language profiles that documents will be generated for.
     localization: {
@@ -98,7 +96,7 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
     //    attributes: {
     //      rel: "canonical",
     //      href: `${
-    //        document._si?document.c_canonical:stagingBaseurl
+    //        document._site.c_canonical?document.c_canonical:stagingBaseurl
             
     //      }`,
     //    },
@@ -160,14 +158,13 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
 };
 
 const Locator: Template<TemplateRenderProps>= ({
-  document,
-  __meta,
-}) => {
-  const {    
-  _site,
-  } = document;
-   
-  // console.log(document,'documentdocument')
+   document,
+   __meta,
+ }) => {
+   const {    
+   _site
+   } = document;
+ 
 
   let templateData = { document: document, __meta: __meta };
   const endpoints =  {
@@ -180,8 +177,6 @@ const Locator: Template<TemplateRenderProps>= ({
    
   }
   var Api="AIzaSyDZNQlSlEIkFAct5VzUtsP4dSbvOr2bE18";  
-
-
   return (
     <>
     <JsonLd<locator>
@@ -200,9 +195,10 @@ const Locator: Template<TemplateRenderProps>= ({
       >
         {" "}
         <AnalyticsScopeProvider name={""}>
-      <PageLayout global={_site}/>
-        {/* <Header props={_site}/> */}
-        <Header site={_site} />
+      {/* <PageLayout global={_site}> */}
+      {/* <Header site={_site} /> */}
+      {console.log(Header ,"zkxknsxxkxdd")};
+      
         <SearchHeadlessProvider
           experienceKey={AnswerExperienceConfig.experienceKey}
           locale={AnswerExperienceConfig.locale}
@@ -216,9 +212,8 @@ const Locator: Template<TemplateRenderProps>= ({
           <SearchLayout _site={_site}/>
      
         </SearchHeadlessProvider>
-        <Footer _site={_site}/>
       
-   
+        {/* <Footer _site={_site}/> */}
       {/* </PageLayout> */}
       </AnalyticsScopeProvider>
       </AnalyticsProvider>
