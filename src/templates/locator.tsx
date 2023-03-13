@@ -3,16 +3,16 @@ import "../index.css";
 import { GetHeadConfig, GetPath, HeadConfig, Template, TemplateConfig, TemplateProps, TemplateRenderProps } from "@yext/pages";
 import { SearchHeadlessProvider } from "@yext/search-headless-react";
 import { FilterSearch, VerticalResults, ResultsCount, AppliedFilters, ApplyFiltersButton, LocationBias, Pagination } from "@yext/search-ui-react";
-import { Location } from "../types/search/locations";
-import MapboxMap from "../components/MapboxMap";
-import MapPin from "../components/MapPin";
-import LocationCard from "../components/locatorPage/LocationCard";
-import PageLayout from "../components/layouts/PageLayout";
-import Geocode from "react-geocode";
-import UseMyLocation from "../components/locatorPage/UseMyLocation"
-import { Address } from "../types/search/locations";
-import { useSearchActions } from "@yext/search-headless-react";
-import { useEffect } from "react";
+// import { Location } from "../types/search/locations";
+// import MapboxMap from "../components/MapboxMap";
+// import MapPin from "../components/MapPin";
+// import LocationCard from "../components/locatorPage/LocationCard";
+ import PageLayout from "../components/layouts/PageLayout";
+// import Geocode from "react-geocode";
+// import UseMyLocation from "../components/locatorPage/UseMyLocation"
+// import { Address } from "../types/search/locations";
+// import { useSearchActions } from "@yext/search-headless-react";
+// import { useEffect } from "react";
 import SearchLayout from "../components/locatorPage/SearchLayout";
 import {stagingBaseurl, favicon, AnalyticsEnableDebugging, AnalyticsEnableTrackingCookie} from "../../sites-global/global"
 import Newsletter from "../components/locatorPage/Newsletter";
@@ -33,6 +33,14 @@ export const config: TemplateConfig = {
     // directly as props to the default exported function.
     fields: [
       "name",
+      "c_headerLogo",
+      "c_headerSection",
+      "c_headerbanner1",
+      "c_footer1",
+      "c_footer2",
+      "c_footer3",
+      "c_footer4",
+      "c_social"
      
     ],
     // Defines the scope of entities that qualify for this stream.
@@ -162,7 +170,9 @@ const Locator: Template<TemplateRenderProps>= ({
    __meta,
  }) => {
    const {    
-   _site
+    _site,
+    
+   
    } = document;
  
 
@@ -195,10 +205,13 @@ const Locator: Template<TemplateRenderProps>= ({
       >
         {" "}
         <AnalyticsScopeProvider name={""}>
-      {/* <PageLayout global={_site}> */}
-      {/* <Header site={_site} /> */}
-      {console.log(Header ,"zkxknsxxkxdd")};
-      
+        {/* <PageLayout global={_site}> */}
+
+        {console.log(_site,"global")}
+  
+      <Header site={_site}/>
+      {/* {console.log(_site,"xkcncdcn")} */}
+
         <SearchHeadlessProvider
           experienceKey={AnswerExperienceConfig.experienceKey}
           locale={AnswerExperienceConfig.locale}
@@ -213,7 +226,7 @@ const Locator: Template<TemplateRenderProps>= ({
      
         </SearchHeadlessProvider>
       
-        {/* <Footer _site={_site}/> */}
+        <Footer _site={_site}/>
       {/* </PageLayout> */}
       </AnalyticsScopeProvider>
       </AnalyticsProvider>

@@ -19,9 +19,10 @@ type Props = {
     console.log()
     return (
         <>
-        
+        <Header site={global}/>
         
                 {children}
+          <Footer _site={global}/>
       
         </>
     );

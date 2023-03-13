@@ -455,7 +455,8 @@ breadcrumbScheme.push({
         
         {/* <Banner site={_site} /> */}
       <PageLayout global={_site}>
-      <Header site={_site} />
+      {/* <Header site={_site} /> */}
+      {console.log(_site,"xkcncdcn")}
        
 
 
@@ -518,7 +519,7 @@ breadcrumbScheme.push({
           
         </div>
         
-        <Footer _site={_site}/>
+        {/* <Footer _site={_site}/> */}
 
       </PageLayout>
       </AnalyticsScopeProvider>

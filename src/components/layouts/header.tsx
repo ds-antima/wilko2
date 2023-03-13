@@ -8,6 +8,7 @@ import Cta from "../commons/cta";
 
   
   const Header = (props:any) => {
+    console.log(props.site,"sjbdbxdnd")
     const linkDoms =  props?.site?.c_headerSection?.map((link:any) => (
       <div>
         <a>

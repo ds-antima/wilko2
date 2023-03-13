@@ -50,7 +50,7 @@ export const config: TemplateConfig = {
     // Defines the scope of entities that qualify for this stream.
     filter: {
       entityTypes: ["ce_region"],
-      savedFilterIds: ["dm_matalan-stores-directory_address_region"]
+      savedFilterIds: ["dm_dreamsNew-directory_address_region"]
     },
     // The entity language profiles that documents will be generated for.
     localization: {
@@ -62,18 +62,21 @@ export const config: TemplateConfig = {
 
 
 export const getPath: GetPath<TemplateProps> = ({ document }) => {
-  let url = "";
+  var url = "";
+  
   document.dm_directoryParents.map((i: any) => {
     if (i.meta.entityType.id == 'ce_country') {
       url += i.slug + "/";
     }
   });
   url += document.slug.toString();
-
+  console.log(url,"xmxmcgbhnnnmmmmmmmmmmmmmmmmmxzszs")
   return url + '.html';
-  {console.log()}
+ 
+
 };
-{console.log(url,"urlllll")};
+
+
 
 // export const getRedirects: GetRedirects<TemplateProps> = ({ document }) => {
 //   return [`index-old/${document.id.toString()}`];
@@ -228,7 +231,9 @@ const region: Template<TemplateRenderProps> = ({
     dm_directoryParents,
     dm_directoryChildren
   } = document;
+  console.log(document.dm_directoryParents[1]?.slug,document.slug,"statttttteeee")
   
+
   const childrenDivs = dm_directoryChildren ? dm_directoryChildren.map((entity: any) => {
     let detlslug;
 
@@ -240,19 +245,23 @@ const region: Template<TemplateRenderProps> = ({
          console.log(res,"res")
           let detlslug1 = "";
 
-          if (!res.slug) {
-            let slugString = res.id + "-" + res.name.toLowerCase();
+          if (!res?.slug) {
+            let slugString = res?.address?.region + "/" + res?.address?.city.toLowerCase();
             let slug = slugString;
             detlslug1 = `${slug}.html`;
+            // console.log(detlslug1,"slug1")
           } else {
             detlslug1 = `${res.slug.toString()}.html`;
+            
           }
 
           detlslug = detlslug1;
+          console.log(detlslug,"ertyuiopcfvgbhjmk")
 
         })
       } else {
-        detlslug = "gb/" + slug + "/" + entity.slug + ".html";
+        detlslug =slug + "/" + entity.slug + ".html";
+        console.log( detlslug ,"dfghjkjhgfghjklkjhggfghjkjhgf")
       }
 
     }
@@ -261,7 +270,7 @@ const region: Template<TemplateRenderProps> = ({
       <li className=" storelocation-category">
         <a
           key={entity.slug}
-          href={stagingBaseurl  + detlslug}
+          href={detlslug}
         >
           {entity.name} ({entity.dm_directoryChildrenCount})
         </a>

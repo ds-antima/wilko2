@@ -296,7 +296,7 @@ const loading = useSearchState(s=>s.searchStatus.isLoading);
                 handleSetUserShareLocation={handleSetUserShareLocation}
             />
 
-            <button
+            <button style={{backgroundColor:"#27ae60"}}
               className="search-btn"
               aria-label="Search bar icon"
               id="search-location-button" onClick={Findinput}>
