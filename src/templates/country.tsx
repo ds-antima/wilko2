@@ -216,17 +216,20 @@ const country: Template<TemplateRenderProps> = ({
     if (typeof entity.dm_directoryChildren != "undefined") {
       if (entity.dm_directoryChildrenCount == 1) {
         entity.dm_directoryChildren.map((res: any) => {
-
+          {console.log(res,"xshxjcxjcjcjm")}
           let detlslug1 = "";
 
           if (!res.slug) {
+            {console.log(res.slug,"ooooooooooooo")}
             let slugString = res.id + " " + res.name;
             let slug = slugString;
             detlslug1 = `${slug}.html`;
+           
           } else {
             detlslug1 = `${res.slug.toString()}.html`;
           }
           if (res.meta?.entityType.id == 'ce_city') {
+           
             detlslug1 = "gb/" + detlslug1;
           } else {
             detlslug1 = detlslug1;

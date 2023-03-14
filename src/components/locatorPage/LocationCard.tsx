@@ -8,6 +8,7 @@ import Address from "../commons/Address";
 import OpenClose from "../commons/openClose";
 import { StaticData } from "../../../sites-global/staticData";
 import { Link } from "@yext/pages/components";
+import Servicess from "../locationDetail/services";
 
 
 const metersToMiles = (meters: number) => {
@@ -37,20 +38,24 @@ function opentime(e: any) {
 }
 
     const { address } = result.rawData;
-//     var name: any = result.rawData.name?.toLowerCase();
-//   var region: any = result.rawData.address.region?.toLowerCase();
-//   var initialregion: any = region.toString();
-//   var finalregion: any = initialregion.replaceAll(" ", "-");
-//   var city: any = result.rawData.address.city?.toLowerCase();
-//   var initialrcity: any = city.toString();
-//   var finalcity: any = initialrcity.replaceAll(" ", "-");
-//   var string: any = name.toString();
-//   let result1: any = string.replaceAll(" ", "-");
-//  if (!result.rawData.slug) {
-//    url= `/${result.rawData.id}-${result1}.html`;
-//  } else {
-//    url= `/${result.rawData.slug.toString()}.html`;
-//  }
+  var name: any = result.rawData.name?.toLowerCase();
+  var count: any =result.rawData.address.countryCode?.toLocaleLowerCase();
+  var region: any = result.rawData.address.region?.toLowerCase();
+  var initialregion: any = region.toString();
+  var finalregion: any = initialregion.replaceAll(" ", "-");
+  var city: any = result.rawData.address.city?.toLowerCase();
+  var initialrcity: any = city.toString();
+  var finalcity: any = initialrcity.replaceAll(" ", "-");
+  var string: any = name.toString();
+  let result1: any = string.replaceAll(" ", "-");
+
+  let url1:any = count+"/"+finalregion+"/"+finalcity+"/"+result.rawData.slug+".html";
+
+  if (!result.rawData.slug) {
+    url= `/${result.rawData.id}-${result1}.html`;
+  } else {
+    url= `/${result.rawData.slug.toString()}.html`;
+  }
   
   return (
     <div className={`location result-list-inner-${result.id} result`} id={`result-${result.id}`} key={`result-${result.rawData.id}`}>
@@ -59,12 +64,12 @@ function opentime(e: any) {
           <div className="lp-param-results lp-subparam-hours">
             <div className="location-name-miles icon-row">
               <div className="icon text-black relative"> <img className=" " src={redmapimage} width="20" height="20"
-                alt={''} /><span className="map-count"></span></div>
-              <h2><Link className="inline-block notHighlight"
+                alt={''} /><span className="map-count">D</span></div>
+              <h2><Link className="inline-block notHighlight" 
                data-ya-track={`viewDetail -${result.rawData.name}`}
                eventName={`viewDetail -${result.rawData.name}`}
                rel="noopener noreferrer"
-               href={`/${result.rawData.id}`}>{result.rawData.name}
+               href={`${url1}`}>{result.rawData.name}
               </Link></h2>
               {typeof result.distance != "undefined" ?
                 <div className="distance">
@@ -74,7 +79,7 @@ function opentime(e: any) {
             </div>
 
             
-            <div className="icon-row content-col address-with-availablity notHighlight">
+            <div className="icon-row content-col address-with-availablity notHighlight" >
               <Address address={address} />
               {result.rawData.hours ? <>
               <div className="mt-2">
@@ -101,15 +106,19 @@ function opentime(e: any) {
                     <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8">
            <circle id="Ellipse_5" data-name="Ellipse 5" cx="4" cy="4" r="4" fill="#ad1e1f"/>
          </svg>
+         
                    <div className="hours-info text-lg font-second-main-font closeddot"> 
                    Closed
                    </div>
                    </div>}
+                   
 
             </div>
+            
+              
          
              <div className="button-bx">
-              <Link type="button" href={`/${result.rawData.id}`} className=" btn notHighlight "
+              <Link type="button" href={`${url1}`} className=" btn notHighlight "
               data-ya-track={`viewStore -${result.rawData.name}`}
               eventName={`viewStore -${result.rawData.name}`}
               rel="noopener noreferrer"
@@ -120,12 +129,13 @@ function opentime(e: any) {
               {result.rawData.displayCoordinate ?
                 <GetDirection buttonText={StaticData.getDirection} address={address} latitude={result.rawData.displayCoordinate?.latitude} longitude={result.rawData.displayCoordinate?.longitude} />
                 : <GetDirection buttonText={StaticData.getDirection} address={address} latitude={result.rawData.yextDisplayCoordinate?.latitude} longitude={result.rawData.yextDisplayCoordinate?.longitude} />}
+                
             </div>
           
          
-
+            
           </div>
-
+        
         </div>
       </div>
     </div>

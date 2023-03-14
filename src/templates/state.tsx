@@ -62,20 +62,16 @@ export const config: TemplateConfig = {
 
 
 export const getPath: GetPath<TemplateProps> = ({ document }) => {
-  var url = "";
-  
+  let url = "";
   document.dm_directoryParents.map((i: any) => {
     if (i.meta.entityType.id == 'ce_country') {
       url += i.slug + "/";
     }
   });
   url += document.slug.toString();
-  console.log(url,"xmxmcgbhnnnmmmmmmmmmmmmmmmmmxzszs")
+
   return url + '.html';
- 
-
 };
-
 
 
 // export const getRedirects: GetRedirects<TemplateProps> = ({ document }) => {
@@ -231,53 +227,62 @@ const region: Template<TemplateRenderProps> = ({
     dm_directoryParents,
     dm_directoryChildren
   } = document;
-  console.log(document.dm_directoryParents[1]?.slug,document.slug,"statttttteeee")
-  
+  const childrenDivs =
+    dm_directoryChildren &&
+    dm_directoryChildren?.map((entity: any) => {
+      if (entity?.dm_directoryChildrenCount == 1) {
+        let slug = "/" + entity?.dm_directoryChildren[0]?.slug + ".html";
 
-  const childrenDivs = dm_directoryChildren ? dm_directoryChildren.map((entity: any) => {
-    let detlslug;
-
-
-    if (typeof entity.dm_directoryChildren != "undefined") {
-
-      if (entity.dm_directoryChildrenCount == 1) {
-        entity.dm_directoryChildren.map((res: any) => {
-         console.log(res,"res")
-          let detlslug1 = "";
-
-          if (!res?.slug) {
-            let slugString = res.id + "-" + res.name.toLowerCase()
-            let slug = slugString;
-            detlslug1 = `${slug}.html`;
-            // console.log(detlslug1,"slug1")
-          } else {
-            detlslug1 = `${res.slug.toString()}.html`;
-            
-          }
-
-          detlslug = detlslug1;
-          console.log(detlslug,"ertyuiopcfvgbhjmk")
-
-        })
+        return (
+          <div className="w-1/2 storelocation-category md:w-1/3 lg:w-1/4 px-4">
+            <a key={entity.slug} href={slug} className="hover:text-red">
+              {entity.name} ({entity.dm_directoryChildrenCount})
+            </a>
+          </div>
+        );
       } else {
-        detlslug =slug + "/" + entity.slug + ".html";
-        console.log( detlslug ,"dfghjkjhgfghjklkjhggfghjkjhgf")
+        // console.log(dm_directoryParents&&dm_directoryParents[1]&&dm_directoryParents[1].slug,'jghhfhhhjhhhhh')
+        let slug =
+          "/" +
+          dm_directoryParents[1]?.slug +
+          "/" +
+          document.slug +
+          "/" +
+          entity.slug +
+          ".html";
+        return (
+          <div className="w-1/2 storelocation-category md:w-1/3 lg:w-1/4 px-4 test">
+            <a key={entity.slug} href={slug} className="hover:text-red">
+              {entity.name} ({entity.dm_directoryChildrenCount})
+            </a>
+          </div>
+        );
       }
-
-    }
-
-    return (
-      <li className=" storelocation-category">
-        <a
-          key={entity.slug}
-          href={detlslug}
-        >
-          {entity.name} ({entity.dm_directoryChildrenCount})
-        </a>
-      </li>
-    )
-  }) : null;
-
+    });
+  let breadcrumbScheme: any = [];
+  let currentIndex: any = 0;
+  dm_directoryParents &&
+    dm_directoryParents?.map((i: any, index: any) => {
+      currentIndex = index;
+      if (index != 0) {
+        breadcrumbScheme.push({
+          "@type": "ListItem",
+          position: index,
+          item: {
+            "@id": `${stagingBaseurl}/${i.slug}`,
+            name: i.name,
+          },
+        });
+      }
+    });
+  breadcrumbScheme.push({
+    "@type": "ListItem",
+    position: currentIndex + 1,
+    item: {
+      "@id": `${stagingBaseurl}/${document.slug.toString()}.html`,
+      name: document.name,
+    },
+  });
  
 
   let bannerimage = c_banner_image && c_banner_image.image.url;
