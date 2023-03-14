@@ -4,11 +4,11 @@ import Cta from "../components/commons/cta";
 import Contact from "../components/locationDetail/contact";
 import ApiCall from "../Apis/ApiCall";
 import Nearby from "../components/locationDetail/Nearby";
-import { CustomFieldDebuggerReactProvider } from '@yext/custom-field-debugger';
+import { CustomFieldDebuggerReactProvider } from "@yext/custom-field-debugger";
 import { JsonLd } from "react-schemaorg";
 import Opening from "../components/commons/openClose";
 import { nearByLocation } from "../types/nearByLocation";
-import Logo from "../images/logo-header.svg"
+import Logo from "../images/logo-header.svg";
 import IframeMap from "../components/locationDetail/IframeMap";
 import "../index.css";
 import {
@@ -38,7 +38,14 @@ import OpenClose from "../components/commons/openClose";
 import Faq from "../components/locationDetail/Faqs";
 import { StaticData } from "../../sites-global/staticData";
 
-import {apikey_for_entity, baseuRL,stagingBaseurl,AnalyticsEnableDebugging,AnalyticsEnableTrackingCookie, favicon } from "../../sites-global/global";
+import {
+  apikey_for_entity,
+  baseuRL,
+  stagingBaseurl,
+  AnalyticsEnableDebugging,
+  AnalyticsEnableTrackingCookie,
+  favicon,
+} from "../../sites-global/global";
 import {
   AnalyticsProvider,
   AnalyticsScopeProvider,
@@ -78,12 +85,14 @@ export const config: TemplateConfig = {
       "description",
       "c_services2",
       "c_aboutus",
-      "c_welcome"
+      "c_welcome",
+      "dm_directoryParents.name",
+      "dm_directoryParents.slug",
+      "dm_directoryParents.meta.entityType",
     ],
     // Defines the scope of entities that qualify for this stream.
     filter: {
-     entityTypes:['location']
-
+      entityTypes: ["location"],
     },
     // The entity language profiles that documents will be generated for.
     localization: {
@@ -100,22 +109,25 @@ export const config: TemplateConfig = {
  * take on the form: featureName/entityId
  */
 export const getPath: GetPath<TemplateProps> = ({ document }) => {
-  // var url = "";
-  // var name: any = document.name.toLowerCase();
-  // var string: any = name.toString();;
-  // let result: any = string.replaceAll(" ", "-");
-  // document.dm_directoryParents.map((result: any, i: Number) => {
-  //   if (i > 0) {
-  //     url += result.slug + "/"
-  //   }
-  // })
-  // if (!document.slug) {
-  //   url += `${result}.html`;
-  // } else {
-  //   url += `${document.slug.toString()}.html`;
-  // }
+  var url = "";
+  var name: any = document.name.toLowerCase();
+  var string: any = name.toString();
+  console.log(name,"name");
+  let result: any = string.replaceAll(" ", "-");
+  document.dm_directoryParents?.map((result: any, i: Number) => {
+    if (i > 0) {
+      url += result.slug + "/";
+    }
+  });
+  if (!document.slug) {
+    url += `${result}.html`;
+  } else {
+    url += `${document.slug.toString()}.html`;
+  }
+  console.log("urlrlrl", url);
 
-  return document.id;
+  return url;
+  
 };
 /**
  * Defines a list of paths which will redirect to the path created by getPath.
@@ -139,7 +151,9 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
   document,
 }): HeadConfig => {
   return {
-    title: document.c_meta_title?document.c_meta_title:`${document.name} Store of MGM Timber`,
+    title: document.c_meta_title
+      ? document.c_meta_title
+      : `${document.name} Store of MGM Timber`,
     charset: "UTF-8",
     viewport: "width=device-width, initial-scale=1",
     tags: [
@@ -147,11 +161,14 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
         type: "meta",
         attributes: {
           name: "description",
-          content: `${document.c_meta_description?document.c_meta_description:`Find the ${document.name} Timber Store in ${document.address.city}. We stock high-quality, robust products at competitive rates.`}`,
+          content: `${
+            document.c_meta_description
+              ? document.c_meta_description
+              : `Find the ${document.name} Timber Store in ${document.address.city}. We stock high-quality, robust products at competitive rates.`
+          }`,
         },
       },
 
-     
       {
         type: "meta",
         attributes: {
@@ -182,7 +199,11 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
         type: "meta",
         attributes: {
           property: "og:description",
-          content: `${document.c_meta_description?document.c_meta_description:`Find the ${document.name} Timber Store in ${document.address.city}. We stock high-quality, robust products at competitive rates.`}`,
+          content: `${
+            document.c_meta_description
+              ? document.c_meta_description
+              : `Find the ${document.name} Timber Store in ${document.address.city}. We stock high-quality, robust products at competitive rates.`
+          }`,
         },
       },
       {
@@ -217,44 +238,47 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
         type: "meta",
         attributes: {
           name: "twitter:title",
-          content: document.c_meta_title?document.c_meta_title:`${document.name} Store of MGM Timber`,
+          content: document.c_meta_title
+            ? document.c_meta_title
+            : `${document.name} Store of MGM Timber`,
         },
       },
       {
         type: "meta",
         attributes: {
           name: "twitter:description",
-          content: `${document.c_meta_description?document.c_meta_description:`Find the ${document.name} Timber Store in ${document.address.city}. We stock high-quality, robust products at competitive rates.`}`,
+          content: `${
+            document.c_meta_description
+              ? document.c_meta_description
+              : `Find the ${document.name} Timber Store in ${document.address.city}. We stock high-quality, robust products at competitive rates.`
+          }`,
         },
       },
       /// twitter tag
-
-
-
-
-
-
     ],
-
   };
 };
 type ExternalApiData = TemplateProps & { externalApiData: nearByLocation };
 export const transformProps: TransformProps<ExternalApiData> = async (
   data: any
 ) => {
+  var location = `${
+    data.document.yextDisplayCoordinate
+      ? data.document.yextDisplayCoordinate?.latitude
+      : data.document.displayCoordinate?.latitude
+  },${
+    data.document.yextDisplayCoordinate
+      ? data.document.yextDisplayCoordinate.longitude
+      : data.document.displayCoordinate.longitude
+  }`;
 
-  var location = `${data.document.yextDisplayCoordinate ? data.document.yextDisplayCoordinate?.latitude : data.document.displayCoordinate?.latitude},${data.document.yextDisplayCoordinate ? data.document.yextDisplayCoordinate.longitude : data.document.displayCoordinate.longitude}`;
-
-    const url = `${AnswerExperienceConfig.endpoints.verticalSearch}?experienceKey=${AnswerExperienceConfig.experienceKey}&api_key=${AnswerExperienceConfig.apiKey}&v=20220511&version=${AnswerExperienceConfig.experienceVersion}&locale=${AnswerExperienceConfig.locale}&location=${location}&locationRadius=${AnswerExperienceConfig.locationRadius}&verticalKey=${AnswerExperienceConfig.verticalKey}&limit=4&retrieveFacets=true&skipSpellCheck=false&sessionTrackingEnabled=true&source=STANDARD`;
- console.log(url)
+  const url = `${AnswerExperienceConfig.endpoints.verticalSearch}?experienceKey=${AnswerExperienceConfig.experienceKey}&api_key=${AnswerExperienceConfig.apiKey}&v=20220511&version=${AnswerExperienceConfig.experienceVersion}&locale=${AnswerExperienceConfig.locale}&location=${location}&locationRadius=${AnswerExperienceConfig.locationRadius}&verticalKey=${AnswerExperienceConfig.verticalKey}&limit=4&retrieveFacets=true&skipSpellCheck=false&sessionTrackingEnabled=true&source=STANDARD`;
+  console.log(url);
   const externalApiData = (await fetch(url).then((res: any) =>
     res.json()
-
   )) as nearByLocation;
   return { ...data, externalApiData };
 };
-
-
 
 type ExternalApiRenderData = TemplateRenderProps & {
   externalApiData: nearByLocation;
@@ -285,10 +309,12 @@ const Location: Template<ExternalApiRenderData> = ({
     name,
     c_services2,
     c_aboutus,
-    c_welcome
+    c_welcome,
+    dm_directoryParents,
   } = document;
+  console.log(slug,"sluggggg");
 
- let templateData = { document: document, __meta: __meta };
+  let templateData = { document: document, __meta: __meta };
   let hoursSchema = [];
   let breadcrumbScheme = [];
   for (var key in hours) {
@@ -326,94 +352,94 @@ const Location: Template<ExternalApiRenderData> = ({
     }
   }
   document.dm_directoryParents &&
-  document.dm_directoryParents.map((i: any, index: any) => {
-    if (i.meta.entityType.id == "ce_country") {
-      document.dm_directoryParents[index].name =
-        document.dm_directoryParents[index].name;
-      document.dm_directoryParents[index].slug =
-        document.dm_directoryParents[index].slug;
+    document.dm_directoryParents.map((i: any, index: any) => {
+      if (i.meta.entityType.id == "ce_country") {
+        document.dm_directoryParents[index].name =
+          document.dm_directoryParents[index].name;
+        document.dm_directoryParents[index].slug =
+          document.dm_directoryParents[index].slug;
 
-      breadcrumbScheme.push({
-        "@type": "ListItem",
-        position: index,
-        item: {
-          "@id":
-            stagingBaseurl +
-       
-            document.dm_directoryParents[index].slug +
-            ".html",
-          name: i.name,
-        },
-      });
-    } else if (i.meta.entityType.id == "ce_region") {
-      let url = "";
-      document.dm_directoryParents.map((j: any) => {
-        if (
-          j.meta.entityType.id != "ce_region" &&
-          j.meta.entityType.id != "ce_city" &&
-          j.meta.entityType.id != "ce_root"
-        ) {
-          console.log(j, "j");
-          url = url  + j.slug;
-        }
-      });
-      breadcrumbScheme.push({
-        "@type": "ListItem",
-        position: index,
-        item: {
-          "@id":
-            stagingBaseurl +
-            url + "/" +
-            document.dm_directoryParents[index].slug +
-            ".html",
-          name: i.name,
-        },
-      });
-    } else if (i.meta.entityType.id == "ce_city") {
-      let url = "";
-      document.dm_directoryParents.map((j: any) => {
-        if (
-          j.meta.entityType.id != "ce_city" &&
-          j.meta.entityType.id != "ce_root"
-        ) {
-          console.log(j, "j");
-          url = url  + "/" + j.slug;
-        }
-      });
-      breadcrumbScheme.push({
-        "@type": "ListItem",
-        position: index,
-        item: {
-          "@id":
-            stagingBaseurl +
-            url +"/" +
-            document.dm_directoryParents[index].slug +
-            ".html",
-          name: i.name,
-        },
-      });
-    }
+        breadcrumbScheme.push({
+          "@type": "ListItem",
+          position: index,
+          item: {
+            "@id":
+              stagingBaseurl +
+              document.dm_directoryParents[index].slug +
+              ".html",
+            name: i.name,
+          },
+        });
+      } else if (i.meta.entityType.id == "ce_region") {
+        let url = "";
+        document.dm_directoryParents.map((j: any) => {
+          if (
+            j.meta.entityType.id != "ce_region" &&
+            j.meta.entityType.id != "ce_city" &&
+            j.meta.entityType.id != "ce_root"
+          ) {
+            console.log(j, "j");
+            url = url + j.slug;
+          }
+        });
+        breadcrumbScheme.push({
+          "@type": "ListItem",
+          position: index,
+          item: {
+            "@id":
+              stagingBaseurl +
+              url +
+              "/" +
+              document.dm_directoryParents[index].slug +
+              ".html",
+            name: i.name,
+          },
+        });
+      } else if (i.meta.entityType.id == "ce_city") {
+        let url = "";
+        document.dm_directoryParents.map((j: any) => {
+          if (
+            j.meta.entityType.id != "ce_city" &&
+            j.meta.entityType.id != "ce_root"
+          ) {
+            console.log(j, "j");
+            url = url + "/" + j.slug;
+          }
+        });
+        breadcrumbScheme.push({
+          "@type": "ListItem",
+          position: index,
+          item: {
+            "@id":
+              stagingBaseurl +
+              url +
+              "/" +
+              document.dm_directoryParents[index].slug +
+              ".html",
+            name: i.name,
+          },
+        });
+      }
+    });
+
+  breadcrumbScheme.push({
+    "@type": "ListItem",
+    position: 4,
+    item: {
+      "@id": stagingBaseurl + path,
+      name: document.name,
+    },
   });
-
-breadcrumbScheme.push({
-  "@type": "ListItem",
-  position: 4,
-  item: {
-    "@id": stagingBaseurl + path,
-    name: document.name,
-  },
-});
-  let imageurl = photoGallery ? photoGallery.map((element: any) => {
-    return element.image.url
-  }) : null;
-  console.log(document)
+  let imageurl = photoGallery
+    ? photoGallery.map((element: any) => {
+        return element.image.url;
+      })
+    : null;
+  console.log(document);
   let bannerimage = c_banner_image && c_banner_image.image.url;
 
-
   return (
-
     <>
-
       <JsonLd<Store>
         item={{
           "@context": "https://schema.org",
@@ -442,87 +468,146 @@ breadcrumbScheme.push({
           itemListElement: breadcrumbScheme,
         }}
       />
-    
 
-
-<AnalyticsProvider
+      <AnalyticsProvider
         templateData={templateData}
-        enableDebugging={AnalyticsEnableDebugging} 
+        enableDebugging={AnalyticsEnableDebugging}
         enableTrackingCookie={AnalyticsEnableTrackingCookie}
       >
         {" "}
         <AnalyticsScopeProvider name={""}>
-        
-        {/* <Banner site={_site} /> */}
-      <PageLayout global={_site}>
-      {/* <Header site={_site} /> */}
-      {console.log(_site,"xkcncdcn")}
-       
+          {/* <Banner site={_site} /> */}
+          <PageLayout global={_site}>
+            <BreadCrumbs
+              name={name}
+              address={address}
+              parents={dm_directoryParents}
+              baseUrl={relativePrefixToRoot}
+            ></BreadCrumbs>
+            {/* <Header site={_site} /> */}
+            {console.log(_site, "xkcncdcn")}
 
-
-      <div className="container">
-            <div className='banner-text banner-dark-bg justify-center text-center'>
-              {/* <h1 className="">{name} {name}</h1> */}
+            <div className="container">
+              <div className="banner-text banner-dark-bg justify-center text-center">
+                {/* <h1 className="">{name} {name}</h1> */}
                 <div className="openClosestatus detail-page closeing-div">
                   {/* <OpenClose timezone={timezone} hours={hours} /> */}
-                  
-                </div> 
-               
-            </div>
-          </div>
-          <div className="location-information">
-          
-        <Contact address={address} 
-           phone={mainPhone} latitude={yextDisplayCoordinate ? yextDisplayCoordinate?.latitude : displayCoordinate?.latitude}
-           yextDisplayCoordinate={yextDisplayCoordinate} longitude={yextDisplayCoordinate ? yextDisplayCoordinate.longitude : displayCoordinate?.longitude} hours={hours}  additionalHoursText={additionalHoursText} >
-            
-           </Contact>
-           
-          
-          {
-            hours ?
-              <div className="map-sec" id="map_canvas">
-                <CustomMap prop={yextDisplayCoordinate ? yextDisplayCoordinate : displayCoordinate} />
-              </div> :
-              <div className="map-sec without-hours" id="map_canvas">
-                <CustomMap prop={yextDisplayCoordinate ? yextDisplayCoordinate : displayCoordinate} />
+                </div>
               </div>
-          }
-        </div>
-        <h1 style={{textAlign:"center"}}>Services</h1>
-        <Services1 service={c_services2}/> 
-       
-        <span style={{textAlign:"center" , fontSize:"1.75rem" , padding:"20px"}}>About 
-          <b style={{textAlign:"center"}}> {name}</b>
-        </span>
-      <div style={{lineHeight:"4em" ,fontSize:"15px"}}>{description}</div>
-
-      <About1 about={c_aboutus}/>
-      {/* <div style={{boxSizing:"border-box",listStyle:"none",display:"flex"}}>{c_servicess}</div>
-       {console.log(c_servicess,"jsbwxjbsj")} */}
-       
-      <h2 style={{textAlign:"center" , fontSize:"2.25em" , padding:"15px", fontWeight:"bold"}}>Pets Welcome</h2>
-      <div style={{display:"flex" , alignItems:"center"}}>
-      <div style={{padding:"46px"}}>{c_welcome.about}</div>
-       <div style={{width:"40%" , alignItems:"center"}}><img  className="" alt="..." style={{width:"150px"}} src={c_welcome.photo.url}  /></div>
-       </div>
-
-        <div className="nearby-sec">
-          <div className="container">
-            <div className="sec-title"><h2 className="" style={{fontSize:"32px" ,color:"black",fontWeight:"bold"}}>{StaticData.NearStoretext}</h2></div>
-            <div className="nearby-sec-inner">
-              {yextDisplayCoordinate || cityCoordinate || displayCoordinate ?
-                <Nearby externalApiData={externalApiData} /> 
-             : ''}
             </div>
-          </div>
-          
-        </div>
-        
-        {/* <Footer _site={_site}/> */}
+            <div className="location-information">
+              <Contact
+                address={address}
+                phone={mainPhone}
+                latitude={
+                  yextDisplayCoordinate
+                    ? yextDisplayCoordinate?.latitude
+                    : displayCoordinate?.latitude
+                }
+                yextDisplayCoordinate={yextDisplayCoordinate}
+                longitude={
+                  yextDisplayCoordinate
+                    ? yextDisplayCoordinate.longitude
+                    : displayCoordinate?.longitude
+                }
+                hours={hours}
+                additionalHoursText={additionalHoursText}
+              ></Contact>
 
-      </PageLayout>
-      </AnalyticsScopeProvider>
+              {hours ? (
+                <div className="map-sec" id="map_canvas">
+                  <CustomMap
+                    prop={
+                      yextDisplayCoordinate
+                        ? yextDisplayCoordinate
+                        : displayCoordinate
+                    }
+                  />
+                </div>
+              ) : (
+                <div className="map-sec without-hours" id="map_canvas">
+                  <CustomMap
+                    prop={
+                      yextDisplayCoordinate
+                        ? yextDisplayCoordinate
+                        : displayCoordinate
+                    }
+                  />
+                </div>
+              )}
+            </div>
+            <h1 style={{ textAlign: "center" }}>Services</h1>
+            <Services1 service={c_services2} />
+
+            <span
+              style={{
+                textAlign: "center",
+                fontSize: "1.75rem",
+                padding: "20px",
+              }}
+            >
+              About
+              <b style={{ textAlign: "center" }}> {name}</b>
+            </span>
+            <div style={{ lineHeight: "4em", fontSize: "15px" }}>
+              {description}
+            </div>
+
+            <About1 about={c_aboutus} />
+            {/* <div style={{boxSizing:"border-box",listStyle:"none",display:"flex"}}>{c_servicess}</div>
+       {console.log(c_servicess,"jsbwxjbsj")} */}
+
+            <h2
+              style={{
+                textAlign: "center",
+                fontSize: "2.25em",
+                padding: "15px",
+                fontWeight: "bold",
+              }}
+            >
+              Pets Welcome
+            </h2>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ padding: "46px" }}>{c_welcome.about}</div>
+              <div style={{ width: "40%", alignItems: "center" }}>
+                <img
+                  className=""
+                  alt="..."
+                  style={{ width: "150px" }}
+                  src={c_welcome.photo.url}
+                />
+              </div>
+            </div>
+
+            <div className="nearby-sec">
+              <div className="container">
+                <div className="sec-title">
+                  <h2
+                    className=""
+                    style={{
+                      fontSize: "32px",
+                      color: "black",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {StaticData.NearStoretext}
+                  </h2>
+                </div>
+                <div className="nearby-sec-inner">
+                  {yextDisplayCoordinate ||
+                  cityCoordinate ||
+                  displayCoordinate ? (
+                    <Nearby externalApiData={externalApiData} />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* <Footer _site={_site}/> */}
+          </PageLayout>
+        </AnalyticsScopeProvider>
       </AnalyticsProvider>
     </>
   );

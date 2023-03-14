@@ -246,7 +246,7 @@ const region: Template<TemplateRenderProps> = ({
           let detlslug1 = "";
 
           if (!res?.slug) {
-            let slugString = res?.address?.region + "/" + res?.address?.city.toLowerCase();
+            let slugString = res.id + "-" + res.name.toLowerCase()
             let slug = slugString;
             detlslug1 = `${slug}.html`;
             // console.log(detlslug1,"slug1")
