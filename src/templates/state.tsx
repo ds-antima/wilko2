@@ -230,8 +230,10 @@ const region: Template<TemplateRenderProps> = ({
   const childrenDivs =
     dm_directoryChildren &&
     dm_directoryChildren?.map((entity: any) => {
+      {console.log(entity,"entity")}
       if (entity?.dm_directoryChildrenCount == 1) {
-        let slug = "/" + entity?.dm_directoryChildren[0]?.slug + ".html";
+        let slug =  "/"+ entity?.dm_directoryChildren[1]+ "/"+ entity?.dm_directoryChildren && dm_directoryChildren[0]?.slug  + "/" + entity?.dm_directoryChildren[0]?.slug + ".html";
+        console.log(dm_directoryParents&&dm_directoryParents[1]&&dm_directoryParents[1].slug,'jghhfhhhjhhhhh')
 
         return (
           <div className="w-1/2 storelocation-category md:w-1/3 lg:w-1/4 px-4">

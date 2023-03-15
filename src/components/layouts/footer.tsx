@@ -196,7 +196,7 @@ export default function Footer(props: any) {
     // })}
     // </>
     <>
-      <div className="Footer-wrapper" style={{ display: "flex" }}>
+      <div className="Footer-wrapper" style={{ display: "inline-flex" }}>
         <div className="" style={{ width: "45%", flexBasis: "20%" }}>
           {props?._site?.c_footer1?.title}
 

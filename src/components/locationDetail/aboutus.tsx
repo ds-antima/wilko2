@@ -56,8 +56,8 @@ export default function About1(props: any) {
                                             <br />
                                             {res?.description ? (<p style={{width:"100%"}}>{res?.description}</p>) : ("")}
                                             <br />
-                                            {res?.shopNow?.link ? (<a href={res.shopNow.link}><h2 style={{backgroundColor:"#27ae60" , color:"white" ,textAlign:"center",width:"300px"}}>{res.shopNow.label}</h2></a>) : ("")}
-                                            <br />
+                                            {res?.shopNow?.link ? (<a href={res.shopNow.link}><h2 style={{backgroundColor:"#27ae60" , color:"white" ,textAlign:"center",width:"300px"}}>{res?.shopNow?.label}</h2></a>) : ("")}
+                                           
 
 
                                         </div>
