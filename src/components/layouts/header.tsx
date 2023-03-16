@@ -9,12 +9,12 @@ import Cta from "../commons/cta";
   
   const Header = (props:any) => {
     console.log(props.site,"sjbdbxdnd")
-    const linkDoms =  props?.site?.c_headerSection?.map((link:any) => (
+    const linkDoms =  props?.site?.c_headerSection?.map((link1:any) => (
       <div>
         <a>
          
-         <img className="h-12 ml-2" src={link.photo.url}/> 
-         <span style={{color:"white"}}>{link.cTA.label}</span>
+         <img className="h-12 ml-2" src={link1.photo.url}/> 
+         <a href={link1.cTA.link}><span style={{color:"white"}}>{link1.cTA.label}</span></a>
         </a>
       </div>
     ));

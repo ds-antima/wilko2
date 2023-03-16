@@ -196,7 +196,7 @@ export default function Footer(props: any) {
     // })}
     // </>
     <>
-      <div className="Footer-wrapper" style={{ display: "inline-flex" }}>
+      <div className="Footer-wrapper" style={{ display: "inline-flex" ,width:"100%"}}>
         <div className="" style={{ width: "45%", flexBasis: "20%" }}>
           {props?._site?.c_footer1?.title}
 
@@ -205,7 +205,7 @@ export default function Footer(props: any) {
               return (
                 <>
                   <div className="footer1" style={{ padding: "2px" }}>
-                    <ul>{res.label}</ul>
+                    <ul><a href={res.link}>{res.label}</a></ul>
                   </div>
                 </>
               );
@@ -236,7 +236,7 @@ export default function Footer(props: any) {
               return (
                 <>
                   <div className="footer1" style={{ padding: "2px" }}>
-                    <ul>{res.label}</ul>
+                    <ul><a href={res.link}>{res.label}</a></ul>
                   </div>
                 </>
               );
@@ -251,7 +251,7 @@ export default function Footer(props: any) {
               return (
                 <>
                   <div className="footer1" style={{ padding: "2px" }}>
-                    <ul>{res.label}</ul>
+                    <ul><a href={res.link}>{res.label}</a></ul>
                   </div>
                 </>
               );
@@ -266,7 +266,7 @@ export default function Footer(props: any) {
               return (
                 <>
                   <div>
-                    <img src={res1.url} />
+                   <a href="#"> <img src={res1.url} /></a>
                   </div>
                 </>
               );

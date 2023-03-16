@@ -50,7 +50,7 @@ export default function About1(props: any) {
                                         <div className="nearby-card" style={{height: "447px",width: "26rem",borderStyle:"none"}}>
                                             {/* {s.label ? (<a href="#"><h2>{s.label}</h2></a>) : ("")} */}
                                             {/* <br /> */}
-                                            {res?.photo?.url? (<img src={res?.photo?.url} style={{ width: "100%", height: "60%" }} />) : ("")}
+                                            {res?.photo?.url? (<img src={res?.photo?.url} style={{ width: "80%", height: "60%" }} />) : ("")}
                                             <br />
                                             {res?.title ? (<a href="#"><h2 style={{color:"#a31c1c" , fontWeight:"900"}}>{res?.title}</h2></a>) : ("")}
                                             <br />
