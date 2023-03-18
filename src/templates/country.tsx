@@ -209,6 +209,7 @@ const country: Template<TemplateRenderProps> = ({
     dm_directoryParents,
     dm_directoryChildren
   } = document;
+  // console.log()
   const childrenDivs = dm_directoryChildren ? dm_directoryChildren.map((entity: any) => {
     let detlslug;
 
@@ -216,7 +217,7 @@ const country: Template<TemplateRenderProps> = ({
     if (typeof entity.dm_directoryChildren != "undefined") {
       if (entity.dm_directoryChildrenCount == 1) {
         entity.dm_directoryChildren.map((res: any) => {
-          {console.log(res.name,"ooooooooooooo")}
+          // {console.log(res.name,"ooooooooooooo")}
           let detlslug1 = "";
 
           if (!res.slug) {
@@ -227,6 +228,7 @@ const country: Template<TemplateRenderProps> = ({
            
           } else {
             detlslug1 = `${res.slug.toString()}.html`;
+            // console.log(detlslug1,"detlslug1")
           }
           if (res.meta?.entityType.id == 'ce_city') {
            
@@ -244,7 +246,8 @@ const country: Template<TemplateRenderProps> = ({
               let slug =slugString;
               detlslug1 = `${slug}.html`;
             } else {
-              detlslug1 = `${detl.slug.toString()}.html`;
+              detlslug1 = document.slug+"/"+entity.slug+"/"+res.slug+"/"+`${detl.slug.toString()}.html`;
+              console.log(detlslug1,"detlslug16568")
             }
 
             detlslug = detlslug1;

@@ -244,14 +244,14 @@ const region: Template<TemplateRenderProps> = ({
             detlslug1 = `${slug}.html`;
             {console.log(detlslug1,"setisslugg")}
           } else {
-            detlslug1 = "gb/" + slug + "/" + entity.slug +"/" + res.id + ".html";
+            detlslug1 = slug + "/" + entity.slug +"/" + res.id + ".html";
           }
 
           detlslug = detlslug1;
 
         })
       } else {
-        detlslug = "gb/" + slug + "/" + entity.slug + ".html";
+        detlslug =slug + "/" + entity.slug + ".html";
        {console.log(detlslug,"dddddddddd")}
         
       }
@@ -262,7 +262,7 @@ const region: Template<TemplateRenderProps> = ({
       <li className=" storelocation-category">
         <a
           key={entity.slug}
-          href={stagingBaseurl  + detlslug}
+          href={detlslug}
         >
           {entity.name} ({entity.dm_directoryChildrenCount})
         </a>

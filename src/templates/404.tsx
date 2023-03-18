@@ -13,6 +13,7 @@ import { StaticData } from "../../sites-global/staticData";
 import Footer from "../components/layouts/footer";
 import Header from "../components/layouts/header";
 import PageLayout from "../components/layouts/PageLayout";
+import "../index.css";
 export const config: TemplateConfig = {
   stream: {
     $id: "404",
