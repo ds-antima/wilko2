@@ -266,8 +266,8 @@ const City: Template<TemplateRenderProps> = ({
     var string: any = name?.toString();;
     let result: any = string.replaceAll(" ", "-");
     if (entity.slug) {
-      url = `${result}.html`;
-      
+      url = `${result}`;
+      console.log(url,"url");
     } else {
       url = `/${entity.slug?.toString()}.html`;
       
