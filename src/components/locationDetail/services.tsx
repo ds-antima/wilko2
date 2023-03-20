@@ -5,7 +5,7 @@ export default function Services1(props: any) {
     <>
     <div
         className="box"
-        style={{boxSizing:"border-box",fontFamily:"var(--font-family-victoria-main)"
+        style={{boxSizing:"border-box",fontFamily:"var(--font-family-victoria-main)",display:"flex",gap:"100px",margin:"20px"
           
         }}
       >
