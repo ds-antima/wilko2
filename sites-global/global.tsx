@@ -4,7 +4,7 @@ export const cookieText =
 export const cookiesUrl = "https://www.matalan.co.uk/corporate/cookies";
 export const baseuRL = "https://liveapi-sandbox.yext.com/v2/accounts/me/entities/geosearch?radius=500"
 // export const apikey_for_entity = "c6e25761c0c1c4d0865f27e36665d5a4"
-export const favicon="https://a.mktgcdn.com/p-sandbox/JPBowt854rpiZHUkXeMpcoAAma6yNy_ph09d3CDaFxY/304x154.png";
+export const favicon="https://www.google.com/search?q=wilko.com+logo&tbm=isch&chips=q:wilko+com+logo,online_chips:png:tl6OO7do3DM%3D&client=firefox-b-d&hl=en-US&sa=X&ved=2ahUKEwik0uqZ8-n9AhWK93MBHYrGAEcQ4lYoAnoECAEQJg&biw=1138&bih=529#imgrc=0yvi_uqT0K0K6M";
 export const apiKey = "461e95a97fb7c9c7150d2455947d27a0";
 export const googleApikey = "AIzaSyDZNQlSlEIkFAct5VzUtsP4dSbvOr2bE18";
 export const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
@@ -19,8 +19,8 @@ export const conversionDetailsPhone = {
   cid: "",
   cv: "2",
 };
-export const center_latitude=51.5095146286;
-export const center_longitude=-0.1244828354;
+export const center_latitude=55.3781;
+export const center_longitude=3.4360;
 
 
 
